@@ -131,13 +131,11 @@ apptainer run \
 
 ### Run Test Data Example
 
-The script is tested with data of a specific sequencing run. The run consists of artificial samples, including AcroMetrix samples. The sequencing was performed on nextseq, with the legacy parameter setting and file formats.
+The script is tested with data of a specific sequencing run. The run consists of artificial samples, including AcroMetrix samples. The sequencing was performed on a NextSeq instrument, with the legacy parameter setting and file formats.
 
 #### Test Data Input File
 
-The input info file `infoFile.tsv` is located in `test`folder of this repository and in `/opt/test` of the created Docekr image. The content of the file follows:
-
-
+The input info file `infoFile.tsv` is located in `test` folder of this repository and in `/opt/test` of the created Docker image. The content of the file follows:
 
 ```
 sample_id	molecule	run_id	barcode	index
@@ -172,6 +170,9 @@ CLAcroMetrix-D01-X01-X00,DNA,CLAcroMetrix-D01-X01-X00,TCCGGAGA,D702,AGGATAGG,D50
 #### Locally
 
 ```
+# ${GITHUB_REPOSITORY_LOCAL_PATH} is an absolute path 
+# to the samplesheet_generator repository on on the local compute.
+
 # define the testRunID value
 testRunID="191206_NB501498_0174_AHWCNMBGXC"
 
