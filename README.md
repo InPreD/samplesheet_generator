@@ -3,9 +3,10 @@ generates samplesheet compatible with TSO500 LocalApp analysis.
 
 ## Contents
 
-1. [Dependencies](#dependencies)
-2. [Description of Input Parameters](#description-of-input-parameters)
-3. [Usage](#usage)
+1. [Introduction](#introduction)
+2. [Dependencies](#dependencies)
+3. [Description of Input Parameters](#description-of-input-parameters)
+4. [Usage](#usage)
 
 ## Introduction
 
