@@ -132,41 +132,10 @@ apptainer run \
 
 ### Run Test Data Example
 
+Test data are located in the `test` subfolder of the repository. Input info file is named `infoFile.tsv` and expected output in `samplesheet.tsv`.
+
 The script is tested with data of a specific sequencing run. The run consists of artificial samples, including AcroMetrix samples. The sequencing was performed on a NextSeq instrument, with the legacy parameter setting and file formats.
 
-#### Test Data Input File
-
-The input info file `infoFile.tsv` is located in `test` folder of this repository and in `/opt/test` of the created Docker image. The content of the file follows:
-
-```
-sample_id	molecule	run_id	barcode	index
-CLAcroMetrix-D01-X01-X00	DNA	191206_NB501498_0174_AHWCNMBGXC	NA	TCCGGAGA
-```
-
-#### Test Data Output 
-
-```
-[Header]
-Investigator Name,Name (InPreD node)
-Experiment Name,OUS pathology test run
-Date,07/02/2024
-
-[Reads]
-101
-101
-
-[Settings]
-AdapterRead1,AGATCGGAAGAGCACACGTCTGAACTCCAGTCA
-AdapterRead2,AGATCGGAAGAGCGTCGTGTAGGGAAAGAGTGT
-AdapterBehavior,trim
-MinimumTrimmedReadLength,35
-MaskShortReads,22
-OverrideCycles,U7N1Y93;I8;I8;U7N1Y93
-
-[Data]
-Sample_ID,Sample_Type,Pair_ID,index,I7_Index_ID,index2,I5_Index_ID
-CLAcroMetrix-D01-X01-X00,DNA,CLAcroMetrix-D01-X01-X00,TCCGGAGA,D702,AGGATAGG,D503
-```
 
 #### Locally
 
