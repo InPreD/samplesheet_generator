@@ -266,7 +266,6 @@ def print_data_section_dual_indexes_v1(info):
 
 
 
-
 def update_info_simple_indexes(info, sample_id, index, I7_Index_ID, index2, I5_Index_ID, molecule):
 # Store the sample info (index, I7_Index_ID, index2, I5_Index_ID, molecule) into the info dictionary,
 # if there is no other record present for info[sample_id].
@@ -416,8 +415,8 @@ def main():
 	# read the input parameters
 	parser=argparse.ArgumentParser(description='Generate SampleSheet for TSO500 LocalApp analysis for a given sequencing run, index_type and index_length.')
 	parser.add_argument('-r', '--run-id', help='ID string of the sequencing run for which a samplesheet should be generated.', required=True, type=str)
-	parser.add_argument('-t', '--index-type', help='Type of indexes, allowed values are \'dual\' and \'simple\'.', required=True, type=str)
-	parser.add_argument('-x', '--index-length', help='Index sequence length. Supported lengths 8 and 10 for dual indexes and 8 for simple indexes.', required=True, type=int)
+	parser.add_argument('-t', '--index-type', help='Type of indexes, allowed values are \'dual\' and \'simple\'.', required=True, type=str, choices=['dual', 'simple'])
+	parser.add_argument('-x', '--index-length', help='Index sequence length. Supported lengths 8 and 10 for dual indexes and 8 for simple indexes.', required=True, type=int, choices=[8, 10])
 	parser.add_argument('-n', '--investigator-name', help='Investigator name to be passed into samplesheet header, cannot contain a comma. [Default: \'\']', default='', type=str)
 	parser.add_argument('-e', '--experiment-name', help='Experiment name to be passed into samplesheet header, cannot contain a comma. [Default: \'\']', default='', type=str)
 	parser.add_argument('-i', '--input-info-file', help='Tab separated file with info about the samples that should be processed in one go.', required=True, type=str)
@@ -425,11 +424,11 @@ def main():
 	parser.add_argument('-2', '--read-length-2', help='Length of sequenced reverse reads. [Default: \'101\']', default='101', type=str)
 	parser.add_argument('-3', '--adapter-read-1', help='Sequence of read 1 adapter, will be used by BCL convert. [Default=\'\']', required=True, type=str)
 	parser.add_argument('-4', '--adapter-read-2', help='Sequence of read 2 adapter, will be used by BCL convert. [Default=\'\']', required=True, type=str)
-	parser.add_argument('-b', '--adapter-behavior', help='Setting AdapterBehavior value that will be used by BCL convert. [Default=\'trim\']', default='trim', type=str)
+	parser.add_argument('-b', '--adapter-behavior', help='Setting AdapterBehavior value that will be used by BCL convert. BCL convert supports values \'trim\' and \'mask\' [Default=\'trim\']', default='trim', type=str, choices=['trim', 'mask'])
 	parser.add_argument('-l', '--minimum-trimmed-read-length', help='Setting MinimumTrimmedReadLength value that will be used by BCL convert. [Default=35]', default=35, type=int)
 	parser.add_argument('-m', '--mask-short-reads', help='Setting MaskShortReads value that will be used by BCL convert. [Default=22]', default=22, type=int)
 	parser.add_argument('-o', '--override-cycles', help='Setting OverrideCycles value that will be used by BCL convert. [Default=\'\']', required=True, type=str)
-	parser.add_argument('-s', '--samplesheet-version', help='Specify sample sheet version. [Default=\'v1\']', default='v1', type=str)
+	parser.add_argument('-s', '--samplesheet-version', help='Specify sample sheet version. [Default=\'v1\']', default='v1', type=str, choices=['v1', 'v2'])
 	
 	args=parser.parse_args()
 	
@@ -455,16 +454,11 @@ def main():
 	
 	if   (index_type.lower() == "dual"):
 		dual_indexes = True
-	elif (index_type.lower() == "simple"):
+	else (index_type.lower() == "simple"):
 		dual_indexes = False
-	else:
-		sys.exit("Unsupported value of index_type=\'"+args.index_type+"\' provided.")	
 		
-		
-	if not (index_length == 8) and not (index_length == 10):
-		sys.exit("Unsupported value of index_length=\'"+index_length+"\' provided.")
-	elif not dual_indexes and (index_length == 10):
-		sys.exit("Unsupported value of index_length=\'"+index_length+"\' for simple indexes provided.")
+	if not dual_indexes and (index_length == 10):
+		sys.exit("Unsupported value of index_length=\'"+index_length+"\' for simple indexes.")
 		
 	indexes=assign_indexes(dual_indexes, index_length)
 	
@@ -477,10 +471,8 @@ def main():
 		print_reads_section_v1(read_length_1, read_length_2)
 		print_settings_section_v1(adapter_read_1, adapter_read_2, adapter_behavior, minimum_trimmed_read_length, mask_short_reads, override_cycles)
 		print_data_section_v1(run_id, dual_indexes, index_length, indexes, input_info_file)
-	elif (samplesheet_version == 'v2'):
+	else (samplesheet_version == 'v2'):
 		sys.exit("Not implemented yet")
-	else:
-		sys.exit("Samplesheet version "+samplesheet_version+" is not supported at the moment")
 
 
 if __name__ == "__main__":
