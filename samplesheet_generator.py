@@ -410,25 +410,24 @@ def print_data_section_v1(run_id, dual_indexes, index_length, indexes, input_inf
 
 
 
-
 def main():
 	# read the input parameters
 	parser=argparse.ArgumentParser(description='Generate SampleSheet for TSO500 LocalApp analysis for a given sequencing run, index_type and index_length.')
-	parser.add_argument('-r', '--run-id', help='ID string of the sequencing run for which a samplesheet should be generated.', required=True, type=str)
-	parser.add_argument('-t', '--index-type', help='Type of indexes, allowed values are \'dual\' and \'simple\'.', required=True, type=str, choices=['dual', 'simple'])
-	parser.add_argument('-x', '--index-length', help='Index sequence length. Supported lengths 8 and 10 for dual indexes and 8 for simple indexes.', required=True, type=int, choices=[8, 10])
-	parser.add_argument('-n', '--investigator-name', help='Investigator name to be passed into samplesheet header, cannot contain a comma. [Default: \'\']', default='', type=str)
-	parser.add_argument('-e', '--experiment-name', help='Experiment name to be passed into samplesheet header, cannot contain a comma. [Default: \'\']', default='', type=str)
-	parser.add_argument('-i', '--input-info-file', help='Tab separated file with info about the samples that should be processed in one go.', required=True, type=str)
-	parser.add_argument('-1', '--read-length-1', help='Length of sequenced forward reads. [Default: \'101\']', default='101', type=str)
-	parser.add_argument('-2', '--read-length-2', help='Length of sequenced reverse reads. [Default: \'101\']', default='101', type=str)
-	parser.add_argument('-3', '--adapter-read-1', help='Sequence of read 1 adapter, will be used by BCL convert. [Default=\'\']', required=True, type=str)
-	parser.add_argument('-4', '--adapter-read-2', help='Sequence of read 2 adapter, will be used by BCL convert. [Default=\'\']', required=True, type=str)
-	parser.add_argument('-b', '--adapter-behavior', help='Setting AdapterBehavior value that will be used by BCL convert. BCL convert supports values \'trim\' and \'mask\' [Default=\'trim\']', default='trim', type=str, choices=['trim', 'mask'])
-	parser.add_argument('-l', '--minimum-trimmed-read-length', help='Setting MinimumTrimmedReadLength value that will be used by BCL convert. [Default=35]', default=35, type=int)
-	parser.add_argument('-m', '--mask-short-reads', help='Setting MaskShortReads value that will be used by BCL convert. [Default=22]', default=22, type=int)
-	parser.add_argument('-o', '--override-cycles', help='Setting OverrideCycles value that will be used by BCL convert. [Default=\'\']', required=True, type=str)
-	parser.add_argument('-s', '--samplesheet-version', help='Specify sample sheet version. [Default=\'v1\']', default='v1', type=str, choices=['v1', 'v2'])
+	parser.add_argument('-r', '--run-id', help='ID of the sequencing run for which the samplesheet is generated.', required=True, type=str)
+	parser.add_argument('-t', '--index-type', help='Type of the used index. Supported values are \'dual\' and \'simple\'. [Default:\'dual\']', default='dual', type=str, choices=['dual', 'simple'])
+	parser.add_argument('-x', '--index-length', help='Number of nucleotides in the used index. Supported values are 8 and 10.', required=True, type=int, choices=[8, 10])
+	parser.add_argument('-n', '--investigator-name', help='Value of the \'Investigator Name\' field in the samplesheet. It is preferred for the string to be in the form \'name (inpred_node)\'. The string cannot contain a comma. [Default: \'\']', default='', type=str)
+	parser.add_argument('-e', '--experiment-name', help='Value of the \'Experiment Name\' field in the samplesheet. It is preferred for the string to be a space separated list of all the studies from which the run samples are. The string cannot contain a comma. [Default: \'\']', default='', type=str)
+	parser.add_argument('-i', '--input-info-file', help='Absolute path to a tab separated file with info about the sequenced samples that should be processed in one go.', required=True, type=str)
+	parser.add_argument('-1', '--read-length-1', help='Length of the sequenced forward reads. This value will be filled in the \'Reads\' section of the samplesheet. [Default: \'101\']', default='101', type=str)
+	parser.add_argument('-2', '--read-length-2', help='Length of the sequenced reverse reads. This value will be filled in the \'Reads\' section of the samplesheet. [Default: \'101\']', default='101', type=str)
+	parser.add_argument('-3', '--adapter-read-1', help='Nucleotide adapter sequence of read1. This value will be filled in the \'Settings\' section of the samplesheet. [Default=\'\']', required=True, type=str)
+	parser.add_argument('-4', '--adapter-read-2', help='Nucleotide adapter sequence of read2. This value will be filled in the \'Settings\' section of the samplesheet. [Default=\'\']', required=True, type=str)
+	parser.add_argument('-b', '--adapter-behavior', help='This value will be filled in the \'Settings\' section of the samplesheet and passed as an input parameter to BCL convert. Supported values are \'trim\' and \'mask\'. For more info about BCL convert, see the BCL convert user guide (https://support.illumina.com/sequencing/sequencing_software/bcl-convert.html). [Default=\'trim\']', default='trim', type=str, choices=['trim', 'mask'])
+	parser.add_argument('-l', '--minimum-trimmed-read-length', help=' This value will be filled in the \'Settings\' section of the samplesheet and passed as an input parameter to BCL convert. [Default=35]', default=35, type=int)
+	parser.add_argument('-m', '--mask-short-reads', help=' This value will be filled in the \'Settings\' section of the samplesheet and passed as an input parameter to BCL convert. [Default=22]', default=22, type=int)
+	parser.add_argument('-o', '--override-cycles', help='This value will be filled in the \'Settings\' section of the samplesheet and passed as an input parameter to BCL convert. [Default=\'\']', required=True, type=str)
+	parser.add_argument('-s', '--samplesheet-version', help='Version in which the samplesheet is generated. Only \'v1\' is implemented now. [Default=\'v1\']', default='v1', type=str, choices=['v1', 'v2'])
 	
 	args=parser.parse_args()
 	
