@@ -40,7 +40,7 @@ Names of the input parameters defined for the script and their possible values a
 |`--minimum-trimmed-read-length`| This value will be filled in the `Settings` section of the samplesheet and passed as an input parameter to BCL convert. | int |  `35` |
 |`--mask-short-reads`| This value will be filled in the `Settings` section of the samplesheet and passed as an input parameter to BCL convert. | int | `22` |
 |`--override-cycles`| This value will be filled in the `Settings` section of the samplesheet and passed as an input parameter to BCL convert. | str | | 
-|`--samplesheet-version`| Version in which the samplesheet is generated. Only `v1` is implemented now. | str | 'v1' |
+|`--samplesheet-version`| Version in which the samplesheet is generated. Only `v1` is implemented now. | str | `v1` |
 |`--help`|Print the help message and exit.| | |
 
 File format of the `input_info_file` follows.
