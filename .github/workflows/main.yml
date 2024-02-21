@@ -3,10 +3,23 @@ on:
   push:
     branches:
       - main
+      - typos
     tags:
       - '*.*.*'
 
 jobs:
+  test:
+    name: Run unit tests
+    runs-on: ubuntu-latest
+    steps:
+      - 
+        name: Check out the repo
+        uses: actions/checkout@v4
+      - 
+        name: Unit testing 
+        uses: fylein/python-pytest-github-action@v2
+        with:
+          args: pip3 install -r requirements.txt && pytest
   build:
     name: Build Image
     runs-on: ubuntu-latest
@@ -27,6 +40,9 @@ jobs:
           tags: |
             latest
             type=semver,pattern={{raw}}
+            type=semver,pattern={{version}}
+            type=semver,pattern={{major}}.{{minor}}
+            type=semver,pattern={{major}}
       - 
         name: Login to Dockerhub
         uses: docker/login-action@v3
