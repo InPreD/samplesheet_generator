@@ -451,10 +451,7 @@ def main():
 	# check whether the specified set of indexes is supported
 	# if so then load them into indexes
 	
-	if (index_type.lower() == "dual"):
-		dual_indexes = True
-	else:
-		dual_indexes = False
+	dual_indexes = index_type == 'dual'
 		
 	if not dual_indexes and (index_length == 10):
 		sys.exit("Unsupported value of index_length=\'"+index_length+"\' for simple indexes.")
