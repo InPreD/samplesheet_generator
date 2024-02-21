@@ -12,5 +12,5 @@ import generator.cli
 	]
 )
 
-def test_provided():
+def test_provided(test_input, expected_output):
 	assert provided(test_input) == expected_output
