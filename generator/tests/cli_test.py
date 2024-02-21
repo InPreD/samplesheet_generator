@@ -8,9 +8,9 @@ import generator.cli
 		('', False),
 		('na', False),
 		('NA', False),
-		('string', True)]
+		('string', True)
 	]
 )
 
 def test_provided(test_input, expected_output):
-	assert provided(test_input) == expected_output
+	assert generator.cli.provided(test_input) == expected_output

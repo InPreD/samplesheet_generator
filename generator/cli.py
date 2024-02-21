@@ -451,9 +451,9 @@ def main():
 	# check whether the specified set of indexes is supported
 	# if so then load them into indexes
 	
-	if   (index_type.lower() == "dual"):
+	if (index_type.lower() == "dual"):
 		dual_indexes = True
-	else (index_type.lower() == "simple"):
+	else:
 		dual_indexes = False
 		
 	if not dual_indexes and (index_length == 10):
@@ -470,7 +470,8 @@ def main():
 		print_reads_section_v1(read_length_1, read_length_2)
 		print_settings_section_v1(adapter_read_1, adapter_read_2, adapter_behavior, minimum_trimmed_read_length, mask_short_reads, override_cycles)
 		print_data_section_v1(run_id, dual_indexes, index_length, indexes, input_info_file)
-	else (samplesheet_version == 'v2'):
+	else:
+	# (samplesheet_version == 'v2'):
 		sys.exit("Not implemented yet")
 
 
