@@ -15,8 +15,8 @@ Running LocalApp analysis requires a samplesheet in a specific format consistent
 
 ## Dependencies
 
-- python3>=3.11.4, 
-- pandas>=2.2.0
+- python3>=3.9, 
+- pandas==2.2.0
 
 
 ## Description of Input Parameters
